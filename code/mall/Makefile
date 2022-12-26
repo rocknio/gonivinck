@@ -5,3 +5,6 @@ VERSION=$(shell git describe --tags --always)
 
 gen-model:
 	goctl model mysql datasource -url="root:123456@tcp(127.0.0.1:3306)/mall" -table="*" -dir="./model"
+
+user-api:
+	goctl api go -api ./service/user/api/user.api -dir ./service/user/api

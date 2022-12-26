@@ -1,0 +1,52 @@
+syntax = "v1"
+
+info(
+	title: "user service api"
+	desc: "user service api"
+	author: "Neo.Song"
+	email: "xx@xx.com"
+	version: "1.0"
+)
+
+// 用户注册
+type RegisterRequest {
+	Name     string `json:"name"`
+	Gender   string `json:"gender"`
+	Mobile   string `json:"mobile"`
+	Password string `json:"password"`
+}
+
+// 用户信息
+type UserInfo {
+	Id     int64  `json:"id"`
+	Name   string `json:"name"`
+	Gender string `json:"gender"`
+	Mobile string `json:"mobile"`
+}
+
+// 用户登录
+type LoginRequest {
+	Mobile   string `json:"mobile"`
+	Password string `json:"password"`
+}
+
+type LoginResponse {
+	AccessToken  string `json:"access_token"`
+	AccessSecret string `json:"access_secret"`
+}
+
+service User {
+	@handler Login
+	post /api/user/login(LoginRequest) returns (LoginResponse)
+	
+	@handler Register
+	post /api/user/register(RegisterRequest) returns (UserInfo)
+}
+
+@server(
+	jwt: Auth
+)
+service User {
+	@handler Userinfo
+	get /users/id/:userId returns (UserInfo)
+}
