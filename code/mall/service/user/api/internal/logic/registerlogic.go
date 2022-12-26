@@ -7,6 +7,7 @@ import (
 	"mall/service/user/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	userClient "mall/service/user/rpc/user"
 )
 
 type RegisterLogic struct {
@@ -24,7 +25,20 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.UserInfo, err error) {
-	// todo: add your logic here and delete this line
+	res, err := l.svcCtx.UserRpc.Register(l.ctx, &userClient.RegisterRequest{
+		Name:     req.Name,
+		Gender:   req.Gender,
+		Mobile:   req.Mobile,
+		Password: req.Password,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.UserInfo{
+		Id:     res.Id,
+		Name:   res.Name,
+		Gender: res.Gender,
+		Mobile: res.Mobile,
+	}, nil
 }

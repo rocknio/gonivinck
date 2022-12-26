@@ -27,12 +27,12 @@ func (s *UserServer) Login(ctx context.Context, in *user.LoginRequest) (*user.Lo
 	return l.Login(in)
 }
 
-func (s *UserServer) Register(ctx context.Context, in *user.RegisterRequest) (*user.UserInfoResponse, error) {
+func (s *UserServer) Register(ctx context.Context, in *user.RegisterRequest) (*user.InfoResponse, error) {
 	l := logic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
 
-func (s *UserServer) UserInfo(ctx context.Context, in *user.UserInfoRequest) (*user.UserInfoResponse, error) {
+func (s *UserServer) UserInfo(ctx context.Context, in *user.InfoRequest) (*user.InfoResponse, error) {
 	l := logic.NewUserInfoLogic(ctx, s.svcCtx)
 	return l.UserInfo(in)
 }

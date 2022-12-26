@@ -2,11 +2,14 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 
 	"mall/service/user/api/internal/svc"
 	"mall/service/user/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
+
+	userClient "mall/service/user/rpc/user"
 )
 
 type UserinfoLogic struct {
@@ -24,7 +27,18 @@ func NewUserinfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Userinfo
 }
 
 func (l *UserinfoLogic) Userinfo() (resp *types.UserInfo, err error) {
-	// todo: add your logic here and delete this line
+	uid, _ := l.ctx.Value("uid").(json.Number).Int64()
+	res, err := l.svcCtx.UserRpc.UserInfo(l.ctx, &userClient.InfoRequest{
+		Userid: uid,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.UserInfo{
+		Id:     res.Id,
+		Name:   res.Name,
+		Gender: res.Gender,
+		Mobile: res.Mobile,
+	}, nil
 }

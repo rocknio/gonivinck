@@ -2,11 +2,15 @@ package logic
 
 import (
 	"context"
+	"mall/common/jwtx"
+	"time"
 
 	"mall/service/user/api/internal/svc"
 	"mall/service/user/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
+
+	userClient "mall/service/user/rpc/user"
 )
 
 type LoginLogic struct {
@@ -24,7 +28,24 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
-	// todo: add your logic here and delete this line
+	res, err := l.svcCtx.UserRpc.Login(l.ctx, &userClient.LoginRequest{
+		Mobile:   req.Mobile,
+		Password: req.Password,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	now := time.Now().Unix()
+	accessExpire := l.svcCtx.Config.Auth.AccessExpire
+
+	accessToken, err := jwtx.GetToken(l.svcCtx.Config.Auth.AccessSecret, now, accessExpire, res.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.LoginResponse{
+		AccessToken:  accessToken,
+		AccessExpire: now + accessExpire,
+	}, nil
 }

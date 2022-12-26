@@ -32,7 +32,7 @@ type LoginRequest {
 
 type LoginResponse {
 	AccessToken  string `json:"access_token"`
-	AccessSecret string `json:"access_secret"`
+	AccessExpire int64  `json:"access_expire"`
 }
 
 service User {

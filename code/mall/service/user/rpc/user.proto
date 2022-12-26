@@ -26,11 +26,11 @@ message RegisterRequest {
 }
 
 // 用户信息
-message UserInfoRequest {
+message InfoRequest {
   int64 Userid = 1;
 }
 
-message UserInfoResponse {
+message InfoResponse {
   int64 Id = 1;
   string Name = 2;
   int64 Gender = 3;
@@ -39,6 +39,6 @@ message UserInfoResponse {
 
 service User {
   rpc Login(LoginRequest) returns(LoginResponse);
-  rpc Register(RegisterRequest) returns(UserInfoResponse);
-  rpc UserInfo(UserInfoRequest) returns(UserInfoResponse);
+  rpc Register(RegisterRequest) returns(InfoResponse);
+  rpc UserInfo(InfoRequest) returns(InfoResponse);
 }

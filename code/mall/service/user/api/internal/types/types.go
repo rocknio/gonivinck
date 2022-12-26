@@ -22,5 +22,5 @@ type LoginRequest struct {
 
 type LoginResponse struct {
 	AccessToken  string `json:"access_token"`
-	AccessSecret string `json:"access_secret"`
+	AccessExpire int64  `json:"access_expire"`
 }
