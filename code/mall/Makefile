@@ -8,3 +8,5 @@ gen-model:
 
 user-api:
 	goctl api go -api ./service/user/api/user.api -dir ./service/user/api
+user-rpc:
+	goctl rpc protoc ./service/user/rpc/user.proto --go_out=./service/user/rpc/pb --go-grpc_out=./service/user/rpc/pb --zrpc_out=./service/user/rpc
